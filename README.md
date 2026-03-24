@@ -2,7 +2,7 @@
 ## Manulife Financial × Mahindra Life Insurance Joint Venture — India Market Entry
 
 **Course: Risk Management Analytics | Signature Assessment**  
-**Date: March 2026**
+
 
 ---
 
@@ -123,25 +123,7 @@ enterprise-risk-project/
 
 ---
 
-## Analytical Methods Used
 
-| Method | Applied To | Notebook | Data Source |
-|--------|------------|----------|-------------|
-| Risk Scoring (1–9 calibrated scale) | All 32 risks | — | `risk_register_data.xlsx` |
-| Standard Risk Heat Map (2D) | All 32 risks | `quantitative_analysis.ipynb` | `risk_register_data.xlsx` |
-| Three-Dimensional Heat Map (RIMS RMM) | All 32 risks | `quantitative_analysis.ipynb` | `risk_register_data.xlsx` |
-| Log-Normal Distribution Fitting | IRDAI approval timelines | `eda.ipynb` | `irdai_approval_history.csv` |
-| Market Share Trend Analysis | LIC / competitor share | `eda.ipynb` | `india_insurance_market.csv` |
-| Demographic Parity Analysis | AI fairness gap | `eda.ipynb` | `ai_fairness_applicants.csv` |
-| CAC Distribution Fitting | Agent cost inputs | `eda.ipynb` | `lic_competitor_data.csv` |
-| Random Forest Classifier (severity prediction) | All 32 risks | `qualitative_analysis.ipynb` | `risk_register_data.xlsx` |
-| 5-Fold Cross-Validation | RF model evaluation | `qualitative_analysis.ipynb` | `risk_register_data.xlsx` |
-| Monte Carlo — R1 (Competitor Displacement) | Market share viability | `quantitative_analysis.ipynb`, `monte_carlo.ipynb` | `india_insurance_market.csv`, `lic_competitor_data.csv` |
-| Monte Carlo — R9 (Regulatory Delay) | Approval timeline & cost | `quantitative_analysis.ipynb`, `monte_carlo.ipynb` | `irdai_approval_history.csv` |
-| Monte Carlo — R15 (AI Bias) | Parity score & financial impact | `quantitative_analysis.ipynb`, `monte_carlo.ipynb` | `ai_fairness_applicants.csv` |
-| 3D Risk Prioritization (Jalilvand & Moorthy, 2023) | All 32 risks | `quantitative_analysis.ipynb` | `risk_register_data.xlsx` |
-
----
 
 ## How to Run the Notebooks
 
@@ -186,7 +168,3 @@ jupyter notebook
 - **Demographic parity variance:** The method-of-moments estimate for Beta distribution variance uses an industry estimate of 0.02 for parity score spread. This can be updated if a larger applicant dataset becomes available.
 
 ---
-
-## Author
-
-Enterprise Risk Management Analytics — Course Signature Assessment, March 2026
