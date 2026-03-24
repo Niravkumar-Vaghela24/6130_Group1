@@ -16,77 +16,73 @@ The work is grounded in real industry data sources (IRDAI, TRAI, Swiss Re, World
 
 ---
 
+Here's the README content in R Markdown format:
+rmarkdown---
+title: "Enterprise Risk Management Analytics"
+subtitle: "Manulife Financial × Mahindra Life Insurance JV — India Market Entry"
+author: "Group 1 | ALY 6130 — Enterprise Risk Management"
+date: "March 2026"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+    highlight: tango
+---
+
+---
+
+## About This Project
+
+This project is a full-cycle enterprise risk management analytics initiative built around a fictitious but realistically grounded scenario: **Manulife Financial Corporation** entering a 50:50 joint venture with **Mahindra & Mahindra Ltd.** to launch a life insurance company targeting rural and semi-urban India, with a combined capital commitment of **USD $400 million**.
+
+All analytical decisions are documented in the notebooks and grounded in five real-world datasets covering IRDAI regulatory history, India's insurance market dynamics, competitor agent networks, and AI underwriting fairness.
+
+---
+
 ## What We Did — Step by Step
 
 ### Phase 1 — SWOT Analysis and Risk Identification
 
-The project started with a structured SWOT analysis of the JV's competitive position in India's life insurance market. From the SWOT, we translated threats and weaknesses into formal risk statements and identified one positive strategic opportunity (regulatory tailwinds) that carries its own risk of underutilization if the JV moves too slowly.
-
-From the SWOT, we built out a full **32-risk universe** across seven categories:
-
-- Competitive
-- Financial
-- Operational
-- Technology / AI
-- Information Security
-- Legal / Compliance
-- Reputational / Ethical
-
-Each risk was described using a structured cause-consequence format: *"The risk of [X], caused by [Y], resulting in [Z]."* This format forces specificity and makes the risk measurable rather than vague.
+We started with a SWOT analysis of the JV's competitive position in India's life insurance market, translating threats and weaknesses into formal risk statements using a cause-consequence format: *"The risk of [X], caused by [Y], resulting in [Z]."* This produced a **32-risk universe** across seven categories: Competitive, Financial, Operational, Technology/AI, Information Security, Legal/Compliance, and Reputational.
 
 ### Phase 2 — Risk Register and Scoring
 
-All 32 risks were entered into a formal Risk Treatment and Response Plan (RT&RP), scored on a calibrated 1–9 likelihood and impact scale designed specifically for the JV's operating context. The impact scale was broken into six dimensions — Financial, Operational, Competitive, Reputational, Technical, and Legal/Compliance — and anchored in JV-specific dollar thresholds (e.g., "Somewhat High Impact = USD $100–250M financial loss") rather than generic language.
-
-Each risk was scored on both dimensions, a composite risk score was calculated (Likelihood × Impact), and risks were classified as High (≥45), Medium (20–44), or Low (<20).
-
-A **risk heat map** was built to visualize the 32 risks across the likelihood/impact matrix, making the priority distribution immediately visible to decision makers.
+All 32 risks were entered into a Risk Treatment and Response Plan (RT&RP) and scored on a calibrated 1–9 likelihood and impact scale anchored in JV-specific dollar thresholds. Composite scores (Likelihood × Impact) classified risks as High (≥45), Medium (20–44), or Low (<20), and a risk heat map was built to make the priority distribution immediately visible.
 
 ### Phase 3 — Exploratory Data Analysis (`eda.ipynb`)
 
-Before any modeling, we conducted a full EDA pass across all five datasets to understand distributions, confirm data quality, and extract parameters that would feed directly into the Monte Carlo simulations. Every finding was tied back to a specific risk or model input — this was not a generic EDA pass.
+Before any modeling, we ran a full EDA across all five datasets — every finding was tied to a specific risk input, not just general exploration.
 
-**Risk Register EDA:** Score distribution histogram, severity pie chart, and mean risk score by category. Confirmed 9 HIGH risks and established the category breakdown used throughout the project.
-
-**IRDAI Approval History (`irdai_approval_history.csv`):** We fitted a Log-Normal distribution to the 23 historical approval timelines for foreign-domestic JV applications from 2015–2024. The fitted parameters (mean ~13.8 months, P90 ~21 months) were carried directly into the R9 Monte Carlo simulation — no hardcoded guesses.
-
-**India Insurance Market (`india_insurance_market.csv`):** Market share trend analysis from 2019–2024 for LIC, HDFC Life, ICICI Prudential, and SBI Life. LIC's declining share trend (74.8% → 60.8%) was extracted as the competitor growth rate input for R1's simulation.
-
-**AI Fairness Applicants (`ai_fairness_applicants.csv`):** Demographic parity analysis on 500 applicant records. We computed the actual rural-to-urban AI approval rate ratio, confirmed it falls below the IRDAI 0.80 fairness threshold, and used this observed parity value to fit the Beta distribution parameters for the R15 Monte Carlo.
-
-**LIC Competitor Data (`lic_competitor_data.csv`):** 36 months of agent count and customer acquisition cost (CAC) data across LIC, HDFC Life, ICICI Prudential, and SBI Life. Mean CAC (₹1,800) and its standard deviation were extracted to parametrize the LogNormal CAC distribution in R1's simulation.
+- **Risk Register:** Confirmed 9 HIGH risks and established the category breakdown used throughout.
+- **`irdai_approval_history.csv`:** Fitted a Log-Normal distribution to 23 historical JV approval timelines (mean 13.8 months, P90 ~21 months) — carried directly into the R9 simulation.
+- **`india_insurance_market.csv`:** Extracted LIC's year-on-year market share decline (74.8% → 60.8%) as the competitor growth rate input for R1.
+- **`ai_fairness_applicants.csv`:** Computed the rural-to-urban AI approval parity score (0.711), confirmed it falls below IRDAI's 0.80 threshold, and used it to fit Beta distribution parameters for R15.
+- **`lic_competitor_data.csv`:** Extracted mean CAC (₹1,775) and standard deviation from 36 months of competitor data to parametrize the LogNormal CAC distribution in R1.
 
 ### Phase 4 — Qualitative Risk Assessment (`qualitative_analysis.ipynb`)
 
-A **Random Forest Classifier** (100 trees) was trained on all 32 risks using Likelihood Score and Impact Score as features, using **5-fold cross-validation** throughout — the dataset is too small for a single train/test split. The notebook produced a classification report, confusion matrix heatmap, and an annotated risk severity scatter plot.
-
-The key purpose was not just to classify risks, but to verify that the qualitative severity thresholds are internally consistent — that the rule-based labels the team assigned match what a data-driven model would independently predict. The three focus risks — R1 (Competitive Displacement), R9 (IRDAI Regulatory Delay), and R15 (AI Underwriting Bias) — were confirmed as correctly classified and selected for quantitative deep-dive based on their shared maximum risk score of 56.
+A Random Forest Classifier (100 trees, 5-fold cross-validation) was trained on all 32 risks to verify that our rule-based severity labels are internally consistent — confirming the three focus risks R1, R9, and R15 were correctly classified at their shared maximum score of 56.
 
 ### Phase 5 — Quantitative Risk Assessment (`quantitative_analysis.ipynb`)
 
-This was the analytical core of the project, combining **Monte Carlo simulation**, **ML-based severity prediction**, and **three-dimensional risk prioritization**.
+The analytical core of the project — combining Monte Carlo simulation, ML-based severity prediction, and three-dimensional risk prioritization.
 
-**Monte Carlo Simulation — R1: LIC & Competitor Displacement:**  
-Parameters were pulled directly from EDA outputs (LIC market share change rates from `india_insurance_market.csv`, CAC from `lic_competitor_data.csv`). The simulation modeled JV Year-1 market share as a function of four stochastic variables: competitor growth (Normal), agent ramp-up speed (Triangular), pricing premium (Normal), and CAC (LogNormal). The viability threshold was set at 1.5% market share — the minimum for the JV to cover Year-1 operating costs.
-
-**Monte Carlo Simulation — R9: IRDAI Regulatory Delay:**  
-Log-Normal parameters fitted from `irdai_approval_history.csv` in EDA. The simulation produced approval timeline and total financial exposure distributions. A warning threshold of 18 months was applied based on IRDAI's escalation rules for stalled applications.
-
-**Monte Carlo Simulation — R15: AI Underwriting Bias:**  
-Beta distribution parameters derived from the observed demographic parity score in `ai_fairness_applicants.csv` using the method of moments. Financial impact (legal costs + IRDAI fine + reputational loss) was only triggered in simulation iterations where the parity score fell below the IRDAI 0.80 threshold.
-
-**Three-Dimensional Risk Prioritization (Jalilvand & Moorthy, 2023, JRFM 16:473):**  
-Extended the standard 2D risk score by adding Control Level using the RIMS Risk Maturity Model (RMM) 5-point scale. All 32 risks were assigned a control level, and a Control-Adjusted (CA) Index was computed as Expected Impact ÷ Control Level. Risks that move significantly between their EI rank and CA rank are those where control quality is materially affecting urgency. Two heat maps were produced: a standard 2D heat map and a 3D version where each dot's border color encodes its RIMS control level.
+- **R1 (Competitor Displacement):** Modeled JV Year-1 market share using four stochastic inputs fitted from real data (competitor growth, agent ramp-up, pricing premium, CAC). Viability threshold set at 1.5% market share.
+- **R9 (Regulatory Delay):** Log-Normal approval timeline distribution fitted from IRDAI history; 18-month warning threshold applied.
+- **R15 (AI Bias):** Beta distribution fitted from observed parity data; financial impact triggered only when parity score falls below 0.80.
+- **3D Risk Prioritization (Jalilvand & Moorthy, 2023):** Extended the 2D score with RIMS RMM control levels to produce a Control-Adjusted Index, generating both standard and control-overlay heat maps for all 32 risks.
 
 ### Phase 6 — Data-Driven Monte Carlo (`monte_carlo.ipynb`)
 
-This notebook re-runs the three Monte Carlo simulations with one key difference from `quantitative_analysis.ipynb`: all distribution parameters are fitted live from the raw CSV files at runtime, rather than being carried in from EDA. This makes the notebook a fully self-contained, reproducible simulation pipeline — changing the underlying data files automatically updates all simulation outputs without any manual parameter editing. Each risk section begins by printing the fitted parameters alongside the raw data statistics they were derived from, so a reader can verify the link between data and model input at a glance.
+A self-contained version of the three simulations where all distribution parameters are fitted live from the raw CSVs at runtime. Changing the underlying data automatically updates all outputs — no manual parameter editing required.
 
-### Phase 7 — Integrated Report (`report/final_report.docx`)
+### Phase 7 — Integrated Report (`report/final_report.pdf`)
 
-All prior work was synthesized into a structured 7+ page Signature Assessment report delivered to a notional Board Risk Committee audience. The report integrates the qualitative and quantitative work into a coherent narrative with figures, tables, and management-ready recommendations covering Background, Risk Identification, Qualitative Assessment, Quantitative Assessment, Risk Response Strategy, KRIs and trigger points, and Conclusion.
+All prior work synthesized into a 7+ page Signature Assessment report covering Background, Risk Identification, Qualitative Assessment, Quantitative Assessment, Risk Response Strategy, KRIs, and Conclusion — with 8 figures embedded directly from the notebook outputs.
 
 ---
+
 
 ## Repository Structure
 
