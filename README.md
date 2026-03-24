@@ -16,29 +16,9 @@ The work is grounded in real industry data sources (IRDAI, TRAI, Swiss Re, World
 
 ---
 
-Here's the README content in R Markdown format:
-rmarkdown---
-title: "Enterprise Risk Management Analytics"
-subtitle: "Manulife Financial × Mahindra Life Insurance JV — India Market Entry"
-author: "Group 1 | ALY 6130 — Enterprise Risk Management"
-date: "March 2026"
-output:
-  html_document:
-    toc: true
-    toc_float: true
-    theme: flatly
-    highlight: tango
----
 
----
 
-## About This Project
 
-This project is a full-cycle enterprise risk management analytics initiative built around a fictitious but realistically grounded scenario: **Manulife Financial Corporation** entering a 50:50 joint venture with **Mahindra & Mahindra Ltd.** to launch a life insurance company targeting rural and semi-urban India, with a combined capital commitment of **USD $400 million**.
-
-All analytical decisions are documented in the notebooks and grounded in five real-world datasets covering IRDAI regulatory history, India's insurance market dynamics, competitor agent networks, and AI underwriting fairness.
-
----
 
 ## What We Did — Step by Step
 
