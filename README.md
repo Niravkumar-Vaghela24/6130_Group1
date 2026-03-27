@@ -6,7 +6,7 @@
 
 ---
 
-## About This Project
+## About This Project 
 
 This project is a full-cycle enterprise risk management analytics initiative built around a fictitious but realistically grounded business scenario: **Manulife Financial Corporation** entering a 50:50 joint venture with **Mahindra & Mahindra Ltd.** to launch a life insurance company targeting rural and semi-urban India, with a combined capital commitment of USD $400 million.
 
